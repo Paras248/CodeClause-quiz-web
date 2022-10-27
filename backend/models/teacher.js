@@ -53,7 +53,7 @@ teacherSchema.methods.getJwtToken = async function () {
 
 // this will be used for login
 teacherSchema.methods.comparePassword = async function (password) {
-    const isEqual = await bcrypt.compare(this.password, password);
+    const isEqual = await bcrypt.compare(password, this.password);
     return isEqual;
 };
 

@@ -19,3 +19,28 @@ exports.signUp = BigPromise(async (req, res, next) => {
 
     cookieToken(teacher, res);
 });
+
+exports.signIn = BigPromise(async (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if (!email || !password) {
+        return next(new CustomError("email and password are required!!!", 400));
+    }
+
+    const teacher = await Teacher.findOne({ email }).select("+password");
+
+    if (!teacher) {
+        return next(
+            new CustomError("Email or password doesn't match or user doesn't exists", 400)
+        );
+    }
+
+    const isValid = await teacher.comparePassword(password);
+
+    if (!isValid) {
+        return next(new CustomError("Password is incorrect", 400));
+    }
+
+    cookieToken(teacher, res);
+});
