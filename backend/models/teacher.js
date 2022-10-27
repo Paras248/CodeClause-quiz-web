@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const teacherSchema = new mongoose.Schema({
     firstName: {
@@ -9,7 +9,7 @@ const teacherSchema = new mongoose.Schema({
         required: [true, "please provide the first name"],
         minLength: [2, "First name should be atleast 2 characters"],
     },
-    LastName: {
+    lastName: {
         type: String,
         required: [true, "please provide the last name"],
         minLength: [2, "Last name should be atleast 2 characters"],
@@ -24,6 +24,7 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         require: [true, "please provide a password"],
         minLength: [6, "password should be atleast of 6 characters"],
+        select: false,
     },
     tests: [
         {
@@ -37,24 +38,23 @@ const teacherSchema = new mongoose.Schema({
     },
 });
 
-
 // before saving the document the password will be hashed
 teacherSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
 });
 
-teacherSchema.methods.getJwtToken() = async function(){
-    const token = await jwt.sign({id: this._id}, process.env.JWT_SECRET,{
-        expiresIn: '2d'
-    })
+teacherSchema.methods.getJwtToken = async function () {
+    const token = await jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: "2d",
+    });
 
     return token;
-}
+};
 
 // this will be used for login
-teacherSchema.methods.comparePassword = async function(password){
+teacherSchema.methods.comparePassword = async function (password) {
     const isEqual = await bcrypt.compare(this.password, password);
     return isEqual;
-}
+};
 
 module.exports = mongoose.model("Teacher", teacherSchema);

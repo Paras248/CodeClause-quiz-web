@@ -3,8 +3,8 @@ const express = require("express");
 const Router = express.Router();
 
 // file imports
-const { demo } = require("../controllers/teacherController");
+const { signUp } = require("../controllers/teacherController");
 
-Router.route("/demo").get(demo);
+Router.route("/signup").post(signUp);
 
 module.exports = Router;
