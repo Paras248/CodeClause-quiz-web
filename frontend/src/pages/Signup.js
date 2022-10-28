@@ -5,13 +5,25 @@ import AuthHeader from "../components/UI/AuthHeader";
 const Signup = () => {
     return (
         <>
-            <AuthHeader buttonText="Sign in" />
+            <AuthHeader buttonText="Sign in" buttonRedirectTo="/login" />
             <form>
                 <div className={styles.container}>
                     <div>
                         <p className={styles.title}>Sign up for free today</p>
                     </div>
                     <div className={styles["input-container"]}>
+                        <input
+                            className={styles.input}
+                            type="text"
+                            placeholder="First name"
+                            name="firstName"
+                        />
+                        <input
+                            className={styles.input}
+                            type="text"
+                            placeholder="Last name"
+                            name="lastName"
+                        />
                         <input
                             className={styles.input}
                             type="email"

@@ -8,7 +8,9 @@ const AuthHeader = (props) => {
             <Link to="/" className={styles["title-link"]}>
                 <p>Quizie</p>
             </Link>
-            <button className={styles.button}>{props.buttonText}</button>
+            <Link to={props.buttonRedirectTo}>
+                <button className={styles.button}>{props.buttonText}</button>
+            </Link>
         </header>
     );
 };
