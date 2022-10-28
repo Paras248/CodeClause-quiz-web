@@ -1,34 +1,36 @@
 import React from "react";
 import styles from "./css/Login.module.css";
+import AuthHeader from "../components/UI/AuthHeader";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     return (
-        <div className={styles.page}>
-            <div className={styles.container}>
-                <div>
-                    <p className={styles.title}>Sign in</p>
+        <>
+            <AuthHeader buttonText="Sign up" />
+            <form>
+                <div className={styles.container}>
+                    <div>
+                        <p className={styles.title}>Sign in</p>
+                    </div>
+                    <div className={styles["input-container"]}>
+                        <input
+                            className={styles.input}
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                        />
+
+                        <input
+                            className={styles.input}
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                        />
+                    </div>
+                    <button className={styles.button}>Sign in</button>
                 </div>
-                <div>
-                    <input
-                        className={styles.input}
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                    />
-                </div>
-                <div>
-                    <input
-                        className={styles.input}
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                    />
-                </div>
-                <div className={styles.buttonContainer}>
-                    <button>Sign in</button>
-                </div>
-            </div>
-        </div>
+            </form>
+        </>
     );
 };
 
