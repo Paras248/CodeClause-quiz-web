@@ -13,5 +13,6 @@ exports.teacherIsLoggedIn = BigPromise(async (req, res, next) => {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
     req.teacher = await Teacher.findById(decoded.id);
+
     next();
 });

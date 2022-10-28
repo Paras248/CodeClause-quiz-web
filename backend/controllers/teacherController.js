@@ -3,8 +3,7 @@ const CustomError = require("../utils/CustomError");
 const Teacher = require("../models/teacher");
 const cookieToken = require("../utils/cookieToken");
 const Test = require("../models/test");
-const { findById, findByIdAndUpdate } = require("../models/teacher");
-const teacher = require("../models/teacher");
+const mongoose = require("mongoose");
 
 exports.signUp = BigPromise(async (req, res, next) => {
     const firstName = req.body.firstName;
@@ -67,7 +66,7 @@ exports.createTest = BigPromise(async (req, res, next) => {
         timeLimit: testTimeLimit,
     });
 
-    const teacher = req.teacher;
+    let teacher = req.teacher;
     const teacherId = teacher._id;
     const testData = [{ _id: test._id }, ...teacher.tests];
 
@@ -83,10 +82,54 @@ exports.createTest = BigPromise(async (req, res, next) => {
         }
     );
 
-    const populated = await updatedTeacher.populate("tests");
+    req.teacher = updatedTeacher;
 
     res.status(200).json({
         success: true,
-        teacher: populated,
+        teacher: updatedTeacher,
+    });
+});
+
+// this method will be used for teacher dashboard
+exports.showAllTestsInformation = BigPromise(async (req, res, next) => {
+    let teacher = req.teacher;
+    teacher = await teacher.populate("tests");
+    res.status(200).json({
+        success: true,
+        teacher,
+    });
+});
+
+exports.deleteSingleTest = BigPromise(async (req, res, next) => {
+    const testId = req.params.id.trim();
+    if (!testId) {
+        return next(new CustomError("Please provide the id for the test", 400));
+    }
+
+    let teacher = req.teacher;
+    const testsData = teacher.tests.filter((test) => {
+        return test._id != testId;
+    });
+
+    teacher = await Teacher.findByIdAndUpdate(
+        teacher.id,
+        {
+            $set: { tests: testsData },
+        },
+        {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }
+    );
+
+    await Test.findByIdAndDelete(testId);
+
+    req.user = teacher;
+
+    res.status(200).json({
+        success: true,
+        message: "Test deleted successfully",
+        teacher,
     });
 });
