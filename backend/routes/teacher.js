@@ -9,6 +9,7 @@ const {
     createTest,
     showAllTestsInformation,
     deleteSingleTest,
+    showSingleTestResult,
 } = require("../controllers/teacherController");
 
 // custom middlewares
@@ -21,6 +22,10 @@ Router.route("/teacherDashboard").get(teacherIsLoggedIn, showAllTestsInformation
 Router.route("/teacherDashboard/test/delete/:id").delete(
     teacherIsLoggedIn,
     deleteSingleTest
+);
+Router.route("/teacherDashboard/test/result/:id").get(
+    teacherIsLoggedIn,
+    showSingleTestResult
 );
 
 module.exports = Router;

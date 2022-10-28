@@ -51,6 +51,7 @@ exports.createTest = BigPromise(async (req, res, next) => {
     const testTitle = req.body.title;
     const testQuestions = req.body.questions;
     const testTimeLimit = req.body.timeLimit;
+    const score = req.body.score;
 
     if (!testTitle || !testQuestions || !testTimeLimit) {
         return next(
@@ -63,6 +64,7 @@ exports.createTest = BigPromise(async (req, res, next) => {
     const test = await Test.create({
         title: testTitle,
         questions: testQuestions,
+        score,
         timeLimit: testTimeLimit,
     });
 
@@ -100,6 +102,35 @@ exports.showAllTestsInformation = BigPromise(async (req, res, next) => {
     });
 });
 
+// this is to display the test results
+exports.showSingleTestResult = BigPromise(async (req, res, next) => {
+    const testId = req.params.id;
+
+    if (!testId) {
+        return next(new CustomError("Please provide correct test id", 400));
+    }
+
+    let test = await Test.findById(testId).populate("attemptedUsers");
+
+    if (!test) {
+        return next(new CustomError("Test not found!!!", 400));
+    }
+
+    test = {
+        _id: test._id,
+        title: test.title,
+        attemptedUsers: test.attemptedUsers,
+        timeLimit: test.timeLimit,
+        createdAt: test.createdAt,
+    };
+
+    res.status(200).json({
+        success: true,
+        test,
+    });
+});
+
+// this is to delete a single test
 exports.deleteSingleTest = BigPromise(async (req, res, next) => {
     const testId = req.params.id.trim();
     if (!testId) {

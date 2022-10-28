@@ -20,9 +20,16 @@ const testSchema = new mongoose.Schema({
                     type: String,
                     required: [true, "please provide an answer to the question"],
                 },
+                point: {
+                    type: Number,
+                    require: [true, "please provide point to the given question"],
+                },
             },
         ],
         required: [true, "Please provide atleast one questions to create test"],
+    },
+    score: {
+        type: Number,
     },
     timeLimit: {
         type: String,
