@@ -28,7 +28,7 @@ const testSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a time limit for the test"],
     },
-    attemtptedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "AttemptedUser" }],
+    attemptedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "AttemptedUser" }],
     createdAt: {
         type: Date,
         default: Date.now,

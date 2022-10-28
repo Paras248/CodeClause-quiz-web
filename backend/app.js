@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 
 // file imports
 const teacher = require("./routes/teacher");
+const test = require("./routes/test");
 
 // express middlewares
 app.use(express.json());
@@ -16,5 +17,6 @@ app.use(cookieParser());
 
 // custom middlewares
 app.use("/api", teacher);
+app.use("/api", test);
 
 module.exports = app;

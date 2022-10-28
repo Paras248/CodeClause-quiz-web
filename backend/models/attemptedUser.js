@@ -11,7 +11,7 @@ const attemtptedUsersSchema = new mongoose.Schema({
         required: [true, "please provide the last name"],
         minLength: [2, "Last name should be atleast 2 characters"],
     },
-    schoolId: {
+    studentId: {
         type: String,
         required: [
             true,
