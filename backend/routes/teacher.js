@@ -3,9 +3,11 @@ const express = require("express");
 const Router = express.Router();
 
 // file imports
-const { signUp, signIn } = require("../controllers/teacherController");
+const { signUp, signIn, createTest } = require("../controllers/teacherController");
+const { teacherIsLoggedIn } = require("../middlewares/teacher");
 
 Router.route("/signup").post(signUp);
 Router.route("/signin").post(signIn);
+Router.route("/teacherDashboard/test/create").post(teacherIsLoggedIn, createTest);
 
 module.exports = Router;

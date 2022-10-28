@@ -2,6 +2,9 @@ const BigPromise = require("../middlewares/BigPromise");
 const CustomError = require("../utils/CustomError");
 const Teacher = require("../models/teacher");
 const cookieToken = require("../utils/cookieToken");
+const Test = require("../models/test");
+const { findById, findByIdAndUpdate } = require("../models/teacher");
+const teacher = require("../models/teacher");
 
 exports.signUp = BigPromise(async (req, res, next) => {
     const firstName = req.body.firstName;
@@ -43,4 +46,47 @@ exports.signIn = BigPromise(async (req, res, next) => {
     }
 
     cookieToken(teacher, res);
+});
+
+exports.createTest = BigPromise(async (req, res, next) => {
+    const testTitle = req.body.title;
+    const testQuestions = req.body.questions;
+    const testTimeLimit = req.body.timeLimit;
+
+    if (!testTitle || !testQuestions || !testTimeLimit) {
+        return next(
+            new CustomError(
+                "test title, questions, timelimit are required to create quiz",
+                400
+            )
+        );
+    }
+    const test = await Test.create({
+        title: testTitle,
+        questions: testQuestions,
+        timeLimit: testTimeLimit,
+    });
+
+    const teacher = req.teacher;
+    const teacherId = teacher._id;
+    const testData = [{ _id: test._id }, ...teacher.tests];
+
+    const updatedTeacher = await Teacher.findByIdAndUpdate(
+        teacherId,
+        {
+            $set: { tests: testData },
+        },
+        {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }
+    );
+
+    const populated = await updatedTeacher.populate("tests");
+
+    res.status(200).json({
+        success: true,
+        teacher: populated,
+    });
 });
