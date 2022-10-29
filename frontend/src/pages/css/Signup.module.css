@@ -38,6 +38,16 @@
     color: rgb(105, 104, 104);
 }
 
+.input.error-input {
+    border: 3px solid rgb(253, 168, 168);
+}
+
+.error-text {
+    font-size: 12px;
+    color: rgb(253, 81, 81);
+    margin-bottom: 10px;
+}
+
 .button {
     width: 100%;
     padding: 15px;

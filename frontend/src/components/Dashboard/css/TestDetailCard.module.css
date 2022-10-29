@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 15px 20px;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgb(243, 243, 243);
+    transition: 0.2s ease-in-out;
+
+    margin-bottom: 15px;
+}
+
+.container:hover {
+    transform: scale(1.01);
+}
+
+.title {
+    font-weight: bold;
+    flex: 1;
+}
+
+.details-container {
+    display: flex;
+    margin-right: 20px;
+}
+
+.details {
+    margin-left: 10px;
+    margin-right: 10px;
+    /* font-weight: bold; */
+    font-size: 14px;
+    color: rgb(99, 97, 97);
+}
+
+.button-container {
+    display: flex;
+}
+
+.button {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    padding: 10px 15px;
+    background-color: rgb(74, 90, 228);
+    color: white;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.delete {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    padding: 10px 15px;
+    background-color: rgb(252, 116, 116);
+    color: white;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: rgb(37, 50, 224);
+}
+
+.delete:hover {
+    background-color: rgb(255, 84, 84);
+}

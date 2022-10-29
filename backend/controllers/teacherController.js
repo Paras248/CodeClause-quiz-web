@@ -3,7 +3,6 @@ const CustomError = require("../utils/CustomError");
 const Teacher = require("../models/teacher");
 const cookieToken = require("../utils/cookieToken");
 const Test = require("../models/test");
-const mongoose = require("mongoose");
 
 exports.signUp = BigPromise(async (req, res, next) => {
     const firstName = req.body.firstName;
@@ -13,13 +12,31 @@ exports.signUp = BigPromise(async (req, res, next) => {
 
     if (!firstName || !lastName || !email || !password) {
         return next(
-            new CustomError("first name, lastname, email, password are required", 400)
+            res.status(400).json({
+                success: false,
+                message: "All fields are required!!!",
+            })
         );
     }
 
-    const teacher = await Teacher.create({ firstName, lastName, email, password });
+    let teacher = await Teacher.findOne({ email });
+    if (teacher) {
+        return next(
+            res.status(400).json({
+                success: false,
+                message: "User already exists",
+            })
+        );
+    }
 
-    cookieToken(teacher, res);
+    teacher = await Teacher.create({ firstName, lastName, email, password });
+
+    teacher.password = undefined;
+
+    res.status(200).json({
+        success: true,
+        message: "User registered successfully",
+    });
 });
 
 exports.signIn = BigPromise(async (req, res, next) => {
@@ -27,21 +44,34 @@ exports.signIn = BigPromise(async (req, res, next) => {
     const password = req.body.password;
 
     if (!email || !password) {
-        return next(new CustomError("email and password are required!!!", 400));
+        return next(
+            res.status(400).json({
+                success: false,
+                message: "Email and password are required",
+            })
+        );
     }
 
     const teacher = await Teacher.findOne({ email }).select("+password");
 
     if (!teacher) {
         return next(
-            new CustomError("Email or password doesn't match or user doesn't exists", 400)
+            res.status(400).json({
+                success: false,
+                message: "Email or password doesn't match or user doesn't exists",
+            })
         );
     }
 
     const isValid = await teacher.comparePassword(password);
 
     if (!isValid) {
-        return next(new CustomError("Password is incorrect", 400));
+        return next(
+            res.status(400).json({
+                success: false,
+                message: "Password is incorrect",
+            })
+        );
     }
 
     cookieToken(teacher, res);
@@ -134,7 +164,11 @@ exports.showSingleTestResult = BigPromise(async (req, res, next) => {
 exports.deleteSingleTest = BigPromise(async (req, res, next) => {
     const testId = req.params.id.trim();
     if (!testId) {
-        return next(new CustomError("Please provide the id for the test", 400));
+        return next(
+            res
+                .status(400)
+                .json({ success: false, message: "Please provide the id for the test" })
+        );
     }
 
     let teacher = req.teacher;
