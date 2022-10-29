@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import CreateTest from "./pages/CreateTest";
 
 function App() {
     return (
@@ -17,8 +18,11 @@ function App() {
             <Route path="/signup">
                 <Signup />
             </Route>
-            <Route path="/teacherDashboard">
+            <Route path="/teacherDashboard" exact>
                 <Dashboard />
+            </Route>
+            <Route path="/teacherDashboard/test/create">
+                <CreateTest />
             </Route>
         </Switch>
     );

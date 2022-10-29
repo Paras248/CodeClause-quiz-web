@@ -30,7 +30,8 @@ const ShowTestDetails = () => {
                 {localStorage.getItem("lastName")},
             </p>
             <div>
-                {tests.map((test) => {
+                {tests.length === 0 && <p className={styles.title}>No tests found.</p>}
+                {tests?.map((test) => {
                     const date = new Date(test.createdAt);
                     return (
                         <TestDetailCard
