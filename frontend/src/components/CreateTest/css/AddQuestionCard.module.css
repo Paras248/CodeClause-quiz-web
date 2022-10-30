@@ -1,46 +1,26 @@
 .container {
     margin-top: 3%;
     display: flex;
-    flex-direction: column;
     margin-left: 25%;
     margin-right: 25%;
-    padding: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 30px;
     border-radius: 10px;
     background-color: rgb(253, 253, 253);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.text {
-    font-size: 12.5px;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: row;
-}
-
-.input {
-    background-color: rgb(253, 253, 253);
-    outline: none;
-    border-bottom: 1px solid grey;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 10px 15px;
-    height: 18px;
-    flex: 1;
-}
-
 .button {
-    padding: 10px 35px;
+    padding: 15px 35px;
     border-radius: 5px;
     outline: none;
+    width: 30%;
     border: none;
     margin-left: 7px;
     background-color: rgb(67, 100, 247);
     color: white;
+    font-size: 15px;
     font-weight: bold;
 }
 

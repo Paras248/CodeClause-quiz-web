@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/CreateTestForm.module.css";
 import OptionCard from "./OptionCard";
 
-const CreateTestForm = () => {
+const CreateTestForm = ({ setQuestionArray, setShowForm }) => {
     const [question, setQuestion] = useState("");
     const [option, setOption] = useState("");
     const [answer, setAnswer] = useState("");
@@ -27,18 +27,27 @@ const CreateTestForm = () => {
 
     const onAddOptionClickHandler = () => {
         if (option.trim().length > 0) {
-            setOptionsArray((prevState) => [...prevState, option]);
+            setOptionsArray((prevState) => [...prevState, option.trim()]);
         }
+        setOption("");
     };
 
     const onResetClickHandler = () => {
         setAnswer("");
         setOption("");
         setQuestion("");
+        setPoint(1);
         setOptionsArray([]);
+        setShowForm(false);
     };
 
-    useEffect(() => console.log(optionsArray), [optionsArray]);
+    const onSubmitClickHandler = () => {
+        setQuestionArray((prevState) => [
+            ...prevState,
+            { title: question, options: optionsArray, point, ans: answer },
+        ]);
+        setShowForm(false);
+    };
 
     return (
         <div className={styles.container}>
@@ -63,8 +72,8 @@ const CreateTestForm = () => {
                 </button>
             </div>
 
-            {optionsArray?.map((item) => {
-                return <OptionCard text={item} />;
+            {optionsArray?.map((item, index) => {
+                return <OptionCard key={index} text={item} />;
             })}
 
             <p className={styles.text}>Add Single answer</p>
@@ -87,7 +96,9 @@ const CreateTestForm = () => {
                     value={point}
                     type="number"
                 />
-                <button className={styles.button}>Submit</button>
+                <button className={styles.button} onClick={onSubmitClickHandler}>
+                    Submit Question
+                </button>
                 <button className={styles.button} onClick={onResetClickHandler}>
                     Reset
                 </button>
