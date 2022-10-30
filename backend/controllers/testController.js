@@ -2,27 +2,34 @@ const BigPromise = require("../middlewares/BigPromise");
 const CustomError = require("../utils/CustomError");
 const Test = require("../models/test");
 const AttemptedUser = require("../models/attemptedUser");
+const mongoose = require("mongoose");
 
 exports.getTest = BigPromise(async (req, res, next) => {
-    const firstName = req.body.firstName.trim();
-    const lastName = req.body.lastName.trim();
-    const studentId = req.body.studentId.trim();
-    const testId = req.body.testId.trim();
+    const firstName = req.query.firstName;
+    const lastName = req.query.lastName;
+    const studentId = req.query.studentId;
+    const testId = req.query.testId;
 
     if (!firstName || !lastName || !studentId || !testId) {
         return next(
-            new CustomError(
-                "firstName, lastName, studentId, testId required to attempt the quiz",
-                401
-            )
+            res.status(400).json({
+                success: false,
+                message: "All fields are required to attempt the quiz",
+            })
         );
     }
 
-    let test = await Test.findById(testId);
-
-    if (!test) {
-        return next(new CustomError("Test not found. Please check your test id!!!", 400));
-    }
+    let test = await Test.findById(testId, async (err, testData) => {
+        if (err) {
+            return next(
+                res.status(400).json({
+                    success: false,
+                    message: "Test id is not valid",
+                })
+            );
+        }
+        return testData;
+    }).clone();
 
     test = {
         _id: test._id,
@@ -52,10 +59,11 @@ exports.submitTest = BigPromise(async (req, res, next) => {
 
     if (!firstName || !lastName || !studentId || !testId || !score) {
         return next(
-            new CustomError(
-                "firstName, lastName, studentId, testId, score required to submit the quiz",
-                401
-            )
+            res.status(400).json({
+                success: false,
+                message:
+                    "firstName, lastName, studentId, testId, score required to submit the quiz",
+            })
         );
     }
 
@@ -79,7 +87,13 @@ exports.submitTest = BigPromise(async (req, res, next) => {
     );
 
     if (!test) {
-        return next(new CustomError("Test not found. Please check your test id!!!", 400));
+        return next(
+            res.status(400).json({
+                success: false,
+                message:
+                    "Test id is invalid. Please re-attempt the test or contact your faculty",
+            })
+        );
     }
 
     res.status(200).json({

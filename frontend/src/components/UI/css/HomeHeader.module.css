@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: blueviolet; */
+    padding: 1% 4%;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: white;
+    outline: none;
+    border: 3px solid rgb(183, 183, 184);
+    font-size: 0.9rem;
+    color: rgb(141, 141, 141);
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
+    margin-right: 10px;
+}
+
+.button:hover {
+    outline: none;
+    border-color: rgb(79, 79, 238);
+    color: rgb(93, 90, 248);
+    transform: scale(1.01);
+}
+
+.title-link {
+    text-decoration: underline;
+    color: inherit;
+}

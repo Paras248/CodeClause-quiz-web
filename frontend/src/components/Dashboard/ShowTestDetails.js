@@ -3,6 +3,7 @@ import TestDetailCard from "./TestDetailCard";
 import styles from "./css/ShowTestDetails.module.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import CsvDownload from "react-json-to-csv";
 
 const ShowTestDetails = () => {
     const [tests, setTests] = useState([]);
