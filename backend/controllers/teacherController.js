@@ -147,19 +147,17 @@ exports.showSingleTestResult = BigPromise(async (req, res, next) => {
     }
 
     test = {
-        // _id: test._id,
-        // title: test.title,
+        _id: test._id,
+        title: test.title,
         attemptedUsers: test.attemptedUsers,
-        // timeLimit: test.timeLimit,
-        // createdAt: test.createdAt,
+        timeLimit: test.timeLimit,
+        createdAt: test.createdAt,
     };
 
-    // res.status(200).json({
-    //     success: true,
-    //     test,
-    // });
-
-    res.status(200).json(test);
+    res.status(200).json({
+        success: true,
+        test,
+    });
 });
 
 // this is to delete a single test

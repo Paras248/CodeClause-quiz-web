@@ -66,6 +66,7 @@ const Login = () => {
                             name="email"
                             onChange={onEmailInputChangeHandler}
                             value={email}
+                            autoComplete="off"
                         />
 
                         <input

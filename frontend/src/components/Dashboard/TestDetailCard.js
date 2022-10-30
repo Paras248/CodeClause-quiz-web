@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styles from "./css/TestDetailCard.module.css";
-import CsvDownload from "react-json-to-csv";
+import { useHistory } from "react-router-dom";
 
 const TestDetailCard = (props) => {
-    const [data, setData] = useState(null);
-
+    const history = useHistory();
     const onDeleteHandler = async () => {
         const options = {
             method: "DELETE",
@@ -22,18 +21,7 @@ const TestDetailCard = (props) => {
     };
 
     const showResultHandler = async () => {
-        const options = {
-            method: "GET",
-            url: `http://localhost:4000/api/teacherDashboard/test/result/${props.id}`,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        };
-
-        axios
-            .request(options)
-            .then((response) => setData(response.data))
-            .catch((err) => console.log(err.response.data));
+        history.push(`/teacherDashboard/test/result/${props.id}`);
     };
 
     return (
@@ -48,15 +36,10 @@ const TestDetailCard = (props) => {
             </div>
 
             <div className={styles["button-container"]}>
-                {!data ? (
-                    <button className={styles.button} onClick={showResultHandler}>
-                        Get result
-                    </button>
-                ) : (
-                    <CsvDownload data={data} className={styles["button-container"]}>
-                        Download
-                    </CsvDownload>
-                )}
+                <button className={styles.button} onClick={showResultHandler}>
+                    Get result
+                </button>
+
                 <button className={styles.delete} onClick={onDeleteHandler}>
                     Delete Test
                 </button>
