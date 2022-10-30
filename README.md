@@ -5,7 +5,7 @@
 - ## Installation guide given below.
 
 - first check whether node and npm exists using this command node -v and npm -v if not then install node and install npm using command npm i npm -g.
-- Install mongodb if not installed
+- Install mongodb if not installed and run mongodb if required.
 
 - ### For backend: 
 
